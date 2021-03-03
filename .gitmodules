@@ -1,0 +1,3 @@
+[submodule "ClusterSubmission"]
+	path = ClusterSubmission
+	url = ssh://git@gitlab.cern.ch:7999/atlas-mpp-xampp/ClusterSubmission.git
