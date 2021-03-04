@@ -27,6 +27,7 @@ def getArguments():
     parser.set_defaults(maxCurrentJobs=100)
     parser.set_defaults(noContainerShipping=False)
     parser.set_defaults(jobOptionsDir="./..")
+    parser.add_argument("--modelsDir", default="", help="Path to directory containing additional models.")
 
     parser.add_argument("-r", "--runNumbers", nargs="+", default=[], type=int)
     parser.add_argument("-R", "--runRange", nargs=2, action="store", type=int)
@@ -148,6 +149,7 @@ class EvGenSubmit(object):
         run_time="12:00:00",
         keep_output=False,
         joboptions_dir="",
+        models_dir="",
         preExec="",
         preInclude="",
         postExec="",
@@ -156,10 +158,11 @@ class EvGenSubmit(object):
         self.__cluster_engine = cluster_engine
         self.__nJobs = nJobs
         self.__events_per_job = eventsPerJob
-        print(self.__events_per_job)
         self.__ev_gen_cores = cores_to_use
+
         self.__evgenCache = evgenCache
         self.__evgenRelease = evgenRelease
+
         self.__preExec = preExec.replace('"', "'")
         self.__preInclude = preInclude.replace('"', "'")
 
@@ -172,6 +175,7 @@ class EvGenSubmit(object):
         self.__hold_jobs = [h for h in hold_jobs]
         self.__keep_out = keep_output
         self.__joboptions_dir = joboptions_dir
+        self.__models_dir = models_dir
         self.__get_job_options(sorted(ClearFromDuplicates(run_numbers)))
 
     def engine(self):
@@ -313,6 +317,7 @@ class EvGenSubmit(object):
                 ("Keep", str(self.__keep_out)),
                 ("EvgenRelease", self.__evgenRelease),
                 ("EvgenCache", self.__evgenCache),
+                ("ModelsDirectory", self.__models_dir),
                 ("NumberOfEvents", self.__events_per_job),
                 ("SeedFile", self.seed_file()),
                 ("ExtraArgs", extra_args),
@@ -528,6 +533,7 @@ def main():
         eventsPerJob=RunOptions.eventsPerJob,
         keep_output=RunOptions.keepOutput,
         joboptions_dir=RunOptions.jobOptionsDir,
+        models_dir=RunOptions.modelsDir,
         cores_to_use=RunOptions.nCores,
         evgenRelease="AthGeneration",
         evgenCache=RunOptions.AthGeneration,
