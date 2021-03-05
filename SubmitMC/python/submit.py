@@ -415,7 +415,7 @@ class DerivationSubmit(object):
             self.run_file(),
         )
         WriteList(
-            ReadListFromFile(self.in_file() if os.path.exists(self.in_file()) else []) + [EVNT_DIR for seed in Non_ProcSeeds],
+            (ReadListFromFile(self.in_file()) if os.path.exists(self.in_file()) else []) + [EVNT_DIR for seed in Non_ProcSeeds],
             self.in_file(),
         )
         self.__n_scheduled += len(Non_ProcSeeds)
