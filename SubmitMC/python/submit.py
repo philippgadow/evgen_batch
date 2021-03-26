@@ -51,7 +51,7 @@ def getArguments():
         default=False,
     )
     parser.add_argument(
-        "--AthGeneration", help="Event generation release version", default="21.6.58"
+        "--AthGeneration", help="Event generation release version", default="21.6.61"
     )
 
     parser.add_argument(
