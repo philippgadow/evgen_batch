@@ -71,8 +71,12 @@ echo 'Starting job.'
 # check if TMPDIR exists or define it as TMP
 [[ -d "${TMPDIR}" ]] || export TMPDIR="${TMP}" || export TMPDIR="/tmp/"
 
-# store number of events to a file in the TMPDIR to retrieve it later
+# store number of events and model directory to a file in the TMPDIR to retrieve it later
 echo $NumberOfEvents > ${TMPDIR}/numberOfEvents.txt
+echo $ModelsDirectory
+if [[ -n "${ModelsDirectory}" ]];then
+  echo $ModelsDirectory > ${TMPDIR}/ModelPath.txt
+fi
 
 echo "###############################################################################################"
 echo "                             Job submission"
@@ -98,6 +102,11 @@ asetup ${EvgenRelease},${EvgenCache}
 
 # retrieve number of events from file
 EVENTS=`cat numberOfEvents.txt`
+# retrieve model path from file
+if [[ -f "ModelPath.txt" ]]; then
+    ModelsDirectory=`cat ModelPath.txt`
+    export PYTHONPATH=${ModelsDirectory}:$PYTHONPATH
+fi
 
 
 echo "###############################################################################################"
